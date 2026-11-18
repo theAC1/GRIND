@@ -61,6 +61,34 @@ class ExerciseDetailScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.only(top: 16, bottom: 32),
         children: [
+          if (e.needsReview && !readOnly)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: Card(
+                color: theme.colorScheme.primaryContainer,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.rate_review_outlined,
+                        color: theme.colorScheme.onPrimaryContainer,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          'Automatisch aus einem Clip erstellt. Bitte '
+                          'prüfen – mit dem Speichern gilt sie als geprüft.',
+                          style: TextStyle(
+                            color: theme.colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           if (e.hasMedia) ...[
             MediaGallery(videoLinks: e.videoLinks, imageIds: e.imageIds),
             const SizedBox(height: 16),

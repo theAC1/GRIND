@@ -1,0 +1,34 @@
+{
+  "categories": [
+    "kraft",
+    "physio",
+    "mobility"
+  ],
+  "goals": [
+    "Maximalkraft",
+    "Hypertrophie",
+    "Schnellkraft",
+    "Kraftausdauer",
+    "Stabilität",
+    "Beweglichkeit",
+    "Aktivierung",
+    "Technik",
+    "Prävention",
+    "Reha",
+    "Regeneration"
+  ],
+  "equipment": [
+    "Körpergewicht",
+    "Langhantel",
+    "Kurzhantel",
+    "Kettlebell",
+    "Band",
+    "Kabelzug",
+    "Maschine",
+    "Klimmzugstange",
+    "Bank",
+    "Box / Stufe",
+    "Medizinball",
+    "Faszienrolle"
+  ]
+}

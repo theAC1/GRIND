@@ -21,6 +21,7 @@ class _ExerciseBrowserState extends State<ExerciseBrowser> {
   String _query = '';
   ExerciseCategory? _category;
   String? _goal;
+  bool _onlyReview = false;
 
   Future<void> _pickGoal() async {
     final store = StoreScope.read(context);
@@ -75,6 +76,7 @@ class _ExerciseBrowserState extends State<ExerciseBrowser> {
   bool _matches(Exercise e, String q) {
     if (_category != null && e.category != _category) return false;
     if (_goal != null && !e.goals.contains(_goal)) return false;
+    if (_onlyReview && !e.needsReview) return false;
     if (q.isEmpty) return true;
     return [
       e.name,
@@ -89,6 +91,8 @@ class _ExerciseBrowserState extends State<ExerciseBrowser> {
     final store = StoreScope.of(context);
     final scheme = Theme.of(context).colorScheme;
     final q = _query.trim().toLowerCase();
+    final toReview = store.exercises.where((e) => e.needsReview).length;
+    if (toReview == 0) _onlyReview = false;
     final items = store.exercises.where((e) => _matches(e, q)).toList();
 
     return Column(
@@ -122,6 +126,18 @@ class _ExerciseBrowserState extends State<ExerciseBrowser> {
                     label: Text(c.label),
                     selected: _category == c,
                     onSelected: (_) => setState(() => _category = c),
+                  ),
+                if (toReview > 0)
+                  FilterChip(
+                    key: const Key('review_filter'),
+                    avatar: Icon(
+                      Icons.rate_review_outlined,
+                      size: 18,
+                      color: _onlyReview ? scheme.onSecondaryContainer : null,
+                    ),
+                    label: Text('Zu prüfen ($toReview)'),
+                    selected: _onlyReview,
+                    onSelected: (v) => setState(() => _onlyReview = v),
                   ),
                 FilterChip(
                   key: const Key('goal_filter'),
@@ -176,6 +192,13 @@ class _ExerciseBrowserState extends State<ExerciseBrowser> {
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          if (e.needsReview)
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: TagWrap(const [
+                                'Prüfen',
+                              ], color: scheme.primary),
+                            ),
                           if (e.videoLinks.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(right: 4),

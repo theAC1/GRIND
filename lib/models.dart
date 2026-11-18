@@ -61,6 +61,7 @@ class Exercise {
     this.videoLinks = const [],
     this.imageIds = const [],
     this.sourceClipId,
+    this.needsReview = false,
   });
 
   final String id;
@@ -89,6 +90,10 @@ class Exercise {
   /// Clip, aus dem die Übung abgeleitet wurde.
   final String? sourceClipId;
 
+  /// Automatisch importiert und vom Trainer noch nicht geprüft. Wird beim
+  /// Speichern im Editor zurückgesetzt.
+  final bool needsReview;
+
   bool get hasMedia => videoLinks.isNotEmpty || imageIds.isNotEmpty;
 
   Map<String, dynamic> toJson() => {
@@ -103,6 +108,7 @@ class Exercise {
     'videoLinks': videoLinks,
     'imageIds': imageIds,
     'sourceClipId': sourceClipId,
+    if (needsReview) 'needsReview': true,
   };
 
   factory Exercise.fromJson(Map<String, dynamic> j) {
@@ -122,6 +128,7 @@ class Exercise {
       videoLinks: links,
       imageIds: _strings(j['imageIds']),
       sourceClipId: j['sourceClipId'] as String?,
+      needsReview: j['needsReview'] == true,
     );
   }
 }

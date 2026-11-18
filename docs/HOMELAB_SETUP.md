@@ -193,8 +193,10 @@ Athlet registriert sich als „Athlet“ und gibt den Code ein.
 3. **Verteilung der App** an Athleten (APK, TestFlight, oder die Web-Version
    über das Homelab ausliefern).
 
-## Nicht Teil dieses Repos
+## Reel-Import (optional, nach der Abnahme)
 
-Der automatische Import von Reels/Shorts (Video laden, transkribieren,
-Übungen vorschlagen) ist noch nicht gebaut. Geplant als eigener Dienst auf
-dem Homelab neben Supabase; dafür ist hier nichts einzurichten.
+Werkzeug zum Importieren von Reels/Shorts in die Übungsbibliothek:
+`tools/reel_import/`. Einrichtung und Ablauf stehen in
+[`tools/reel_import/AGENT.md`](../tools/reel_import/AGENT.md). Es läuft auf
+dem Homelab (nicht im Supabase-Stack), braucht `python3`, `ffmpeg` und die
+Zugangsdaten des Trainer-Kontos.

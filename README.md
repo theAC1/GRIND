@@ -57,6 +57,14 @@ Mit einem Supabase-Server (selbst gehostet, siehe
 
 Ohne Server bleibt alles wie bisher rein lokal.
 
+## Reel-Import
+
+`tools/reel_import/` holt ein Video per Link (yt-dlp), erzeugt Standbilder
+(ffmpeg) und ein Transkript (Whisper) und legt daraus in CoachPlan einen
+Clip samt Übungen an. Die Übungen beschreibt ein Agent oder ein lokales
+Sprachmodell; in der App tragen sie die Marke „Prüfen“, bis der Trainer sie
+gespeichert hat. Anleitung: [tools/reel_import/AGENT.md](tools/reel_import/AGENT.md).
+
 ## Grenzen
 
 - **Ein Trainer je Athleten-Konto.** Ein Athlet kann derzeit nur mit einem
@@ -66,8 +74,8 @@ Ohne Server bleibt alles wie bisher rein lokal.
   Abgleich (spätestens nach 45 s bei geöffneter App), nicht sofort.
 - **Videos** öffnen in der jeweiligen App bzw. im Browser, nicht eingebettet.
   Vorschaubilder gibt es automatisch nur für YouTube.
-- **Kein automatischer Import** von Reels (Video, Transkript, Auswertung):
-  Link, Notizen und Screenshots werden von Hand erfasst.
+- **Reel-Import nur über das Homelab-Werkzeug** (siehe unten), nicht direkt
+  in der App; dort werden Link, Notizen und Screenshots von Hand erfasst.
 - Im Browser landen Bilder im lokalen Speicher (wenige MB) – die Web-Version
   ist zum Ausprobieren gedacht, nicht für große Bildmengen.
 
@@ -121,5 +129,6 @@ supabase/
   migrations/             Datenbank-Schema und Zugriffsregeln
   smoke_test.sh           Abnahme eines Servers per curl
   dev/                    kleiner Test-Stack (nicht für den Betrieb)
+tools/reel_import/        Reel-Import für das Homelab (yt-dlp, Whisper)
 docs/HOMELAB_SETUP.md     Einrichtung auf dem Homelab (Supabase, Cloudflare)
 ```
