@@ -19,8 +19,11 @@ export 'util.dart' show newId, dateOnly;
 /// werden – wenn ein Konto verbunden ist – mit dem Server abgeglichen.
 /// Die App bleibt ohne Netz voll benutzbar.
 class AppStore extends ChangeNotifier {
-  AppStore({MediaStorage? mediaStorage, this.storageKey = defaultStorageKey})
-    : media = MediaLibrary(mediaStorage ?? createPlatformMediaStorage()) {
+  AppStore({
+    MediaStorage? mediaStorage,
+    this.storageKey = defaultStorageKey,
+    this.persist = true,
+  }) : media = MediaLibrary(mediaStorage ?? createPlatformMediaStorage()) {
     media.onAdded = sync.mediaUploads.add;
   }
 
@@ -28,6 +31,9 @@ class AppStore extends ChangeNotifier {
 
   /// Schlüssel der lokalen Ablage (in Tests je Gerät verschieden).
   final String storageKey;
+
+  /// Ohne Ablage auf dem Gerät (Demo-Modus): alles bleibt im Speicher.
+  final bool persist;
   String get _backupKey => '${storageKey}_corrupt_backup';
 
   final MediaLibrary media;
@@ -116,6 +122,7 @@ class AppStore extends ChangeNotifier {
   }
 
   Future<void> _save() async {
+    if (!persist) return;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(storageKey, jsonEncode(toJson()));
   }

@@ -88,6 +88,13 @@ flutter run -d chrome  # Browser
 flutter test
 ```
 
+Demo zum Durchklicken (Beispieldaten nur im Speicher, Umschalter zwischen
+Trainer-Sicht und Athleten-App, ohne Server):
+
+```bash
+flutter run -d chrome --dart-define=DEMO=true
+```
+
 Mit Server-Vorgabe bauen (dann fragt die App nicht nach der Adresse):
 
 ```bash
@@ -112,6 +119,7 @@ Entwickelt mit Flutter 3.50.0 (Paket `material_ui`).
 ```
 lib/
   main.dart               App
+  demo.dart               Demo-Modus (Beispieldaten, Rollenwechsel)
   theme.dart              Farbkonzept, helles/dunkles Design
   models.dart             Athlete, Exercise, VideoClip, SessionEntry, SetLog, TrainingSession
   store.dart              AppStore (Zustand, Persistenz, Bild-Aufräumen)

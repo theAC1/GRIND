@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:material_ui/material_ui.dart';
 
+import 'demo.dart';
 import 'screens/home_screen.dart';
 import 'store.dart';
 import 'sync/backend.dart';
@@ -15,6 +16,10 @@ const _defaultKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (demoMode) {
+    runApp(const DemoApp());
+    return;
+  }
   final store = AppStore();
   await store.load();
   final backend = Backend(store);
@@ -29,12 +34,15 @@ Future<void> main() async {
 }
 
 class CoachApp extends StatefulWidget {
-  const CoachApp({super.key, required this.store, this.backend});
+  const CoachApp({super.key, required this.store, this.backend, this.banner});
 
   final AppStore store;
 
   /// Ohne Angabe läuft die App rein lokal (z. B. in Tests).
   final Backend? backend;
+
+  /// Leiste über der App (Demo-Modus).
+  final Widget? banner;
 
   @override
   State<CoachApp> createState() => _CoachAppState();
@@ -76,6 +84,20 @@ class _CoachAppState extends State<CoachApp> with WidgetsBindingObserver {
           localizationsDelegates: GlobalMaterialLocalizations.delegates,
           theme: buildTheme(Brightness.light),
           darkTheme: buildTheme(Brightness.dark),
+          builder: widget.banner == null
+              ? null
+              : (context, child) => Column(
+                  children: [
+                    widget.banner!,
+                    Expanded(
+                      child: MediaQuery.removePadding(
+                        context: context,
+                        removeTop: true,
+                        child: child!,
+                      ),
+                    ),
+                  ],
+                ),
           home: const HomeScreen(),
         ),
       ),
